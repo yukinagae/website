@@ -1,12 +1,12 @@
 ---
-title: コンテナを実行するシェルを取得する
+title: 実行中のコンテナへのシェルを取得する
 content_template: templates/task
 ---
 
 {{% capture overview %}}
 
 
-このページは`kubectl exec`を使用してコンテナを実行するためのシェルを取得する方法を説明します。
+このページは`kubectl exec`を使用して実行中のコンテナへのシェルを取得する方法を説明します。
 
 {{% /capture %}}
 
@@ -23,7 +23,7 @@ content_template: templates/task
 ## コンテナへのシェルの取得
 
 このエクササイズでは、1つのコンテナを持つPodを作成します。
-コンテナはnginxのイメージを実行します。こちらがそのPodの設定ファイルです:
+コンテナはnginxのイメージを実行します。以下がそのPodの設定ファイルです:
 
 {{< codenew file="application/shell-demo.yaml" >}}
 
@@ -39,7 +39,7 @@ kubectl create -f https://k8s.io/examples/application/shell-demo.yaml
 kubectl get pod shell-demo
 ```
 
-実行中のコンテナへのシェルを取得する:
+実行中のコンテナへのシェルを取得します:
 
 ```shell
 kubectl exec -it shell-demo -- /bin/bash
@@ -56,7 +56,7 @@ kubectl exec -it shell-demo -- /bin/bash
 root@shell-demo:/# ls /
 ```
 
-シェル内で、他のコマンドを試しましょう。こちらがいくつかの例です:
+シェル内で、他のコマンドを試しましょう。以下がいくつかの例です:
 
 ```shell
 root@shell-demo:/# ls /
@@ -107,7 +107,7 @@ Hello shell demo
 kubectl exec shell-demo env
 ```
 
-他のコマンドを試します。こちらがいくつかの例です:
+他のコマンドを試します。以下がいくつかの例です:
 
 ```shell
 kubectl exec shell-demo ps aux
@@ -121,7 +121,7 @@ kubectl exec shell-demo cat /proc/1/mounts
 
 ## Podが1つ以上のコンテナを持つ場合にシェルを開く
 
-1つのPodが1つ以上のコンテナを持つ場合、`--container`か`-c`を使用して、`kubectl exec`コマンド内でコンテナを指定します。
+Podが1つ以上のコンテナを持つ場合、`--container`か`-c`を使用して、`kubectl exec`コマンド内でコンテナを指定します。
 例えば、my-podという名前のPodがあり、そのPodがmain-appとhelper-appという2つのコンテナを持つとします。
 以下のコマンドはmain-appのコンテナへのシェルを開きます。
 
