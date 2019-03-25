@@ -1,12 +1,12 @@
 ---
-title: Get a Shell to a Running Container
+title: コンテナを実行するシェルを取得する
 content_template: templates/task
 ---
 
 {{% capture overview %}}
 
-This page shows how to use `kubectl exec` to get a shell to a
-running Container.
+
+このページは`kubectl exec`を使用してコンテナを実行するためのシェルを取得する方法を説明します。
 
 {{% /capture %}}
 
@@ -20,44 +20,43 @@ running Container.
 
 {{% capture steps %}}
 
-## Getting a shell to a Container
+## コンテナへのシェルの取得
 
-In this exercise, you create a Pod that has one Container. The Container
-runs the nginx image. Here is the configuration file for the Pod:
+このエクササイズでは、1つのコンテナを持つPodを作成します。
+コンテナはnginxのイメージを実行します。こちらがそのPodの設定ファイルです:
 
 {{< codenew file="application/shell-demo.yaml" >}}
 
-Create the Pod:
+Podを作成します:
 
 ```shell
 kubectl create -f https://k8s.io/examples/application/shell-demo.yaml
 ```
 
-Verify that the Container is running:
+コンテナが実行中であることを確認します:
 
 ```shell
 kubectl get pod shell-demo
 ```
 
-Get a shell to the running Container:
+実行中のコンテナへのシェルを取得する:
 
 ```shell
 kubectl exec -it shell-demo -- /bin/bash
 ```
 {{< note >}}
 
-The double dash symbol "--" is used to separate the arguments you want to pass to the command from the kubectl arguments.
+ダブルダッシュの記号 "--" はコマンドに渡す引数とkubectlの引数を分離します。
 
 {{< /note >}}
 
-In your shell, list the root directory:
+シェル内で、ルートディレクトリーのファイル一覧を表示します:
 
 ```shell
 root@shell-demo:/# ls /
 ```
 
-In your shell, experiment with other commands. Here are
-some examples:
+シェル内で、他のコマンドを試しましょう。こちらがいくつかの例です:
 
 ```shell
 root@shell-demo:/# ls /
@@ -73,20 +72,18 @@ root@shell-demo:/# ps aux
 root@shell-demo:/# ps aux | grep nginx
 ```
 
-## Writing the root page for nginx
+## nginxのルートページへの書き込み
 
-Look again at the configuration file for your Pod. The Pod
-has an `emptyDir` volume, and the Container mounts the volume
-at `/usr/share/nginx/html`.
+Podの設定ファイルを再度確認します。Podは`emptyDir`ボリュームを持ち、
+コンテナは`/usr/share/nginx/html`ボリュームをマウントします。
 
-In your shell, create an `index.html` file in the `/usr/share/nginx/html`
-directory:
+シェル内で、`/usr/share/nginx/html`ディレクトリに`index.htnml`を作成します。
 
 ```shell
 root@shell-demo:/# echo Hello shell demo > /usr/share/nginx/html/index.html
 ```
 
-In your shell, send a GET request to the nginx server:
+シェル内で、nginxサーバーにGETリクエストを送信します:
 
 ```shell
 root@shell-demo:/# apt-get update
@@ -94,24 +91,23 @@ root@shell-demo:/# apt-get install curl
 root@shell-demo:/# curl localhost
 ```
 
-The output shows the text that you wrote to the `index.html` file:
+出力に`index.html`ファイルに書き込んだ文字列が表示されます:
 
 ```shell
 Hello shell demo
 ```
 
-When you are finished with your shell, enter `exit`.
+シェルを終了する場合、`exit`を入力します。
 
-## Running individual commands in a Container
+## コンテナ内での各コマンドの実行
 
-In an ordinary command window, not your shell, list the environment
-variables in the running Container:
+シェルではない通常のコマンドウインドウ内で、実行中のコンテナの環境変数の一覧を表示します:
 
 ```shell
 kubectl exec shell-demo env
 ```
 
-Experiment running other commands. Here are some examples:
+他のコマンドを試します。こちらがいくつかの例です:
 
 ```shell
 kubectl exec shell-demo ps aux
@@ -123,13 +119,11 @@ kubectl exec shell-demo cat /proc/1/mounts
 
 {{% capture discussion %}}
 
-## Opening a shell when a Pod has more than one Container
+## Podが1つ以上のコンテナを持つ場合にシェルを開く
 
-If a Pod has more than one Container, use `--container` or `-c` to
-specify a Container in the `kubectl exec` command. For example,
-suppose you have a Pod named my-pod, and the Pod has two containers
-named main-app and helper-app. The following command would open a
-shell to the main-app Container.
+1つのPodが1つ以上のコンテナを持つ場合、`--container`か`-c`を使用して、`kubectl exec`コマンド内でコンテナを指定します。
+例えば、my-podという名前のPodがあり、そのPodがmain-appとhelper-appという2つのコンテナを持つとします。
+以下のコマンドはmain-appのコンテナへのシェルを開きます。
 
 ```shell
 kubectl exec -it my-pod --container main-app -- /bin/bash
